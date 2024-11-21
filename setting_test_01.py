@@ -7,7 +7,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 capabilities = dict(
     platformName='Android',
     automationName='uiautomator2',
-    deviceName='Android',
+    deviceName='Samsung_Galaxy_Tab_S7_FE API 34',
     appPackage='com.android.settings',
     appActivity='.Settings'
 )
@@ -23,7 +23,7 @@ class TestAppium(unittest.TestCase):
             self.driver.quit()
 
     def test_find_settings(self) -> None:
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="연결"]')
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Apps"]')
         el.click()
         time.sleep(2)
 

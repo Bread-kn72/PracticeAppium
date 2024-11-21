@@ -7,12 +7,12 @@ from appium.webdriver.common.appiumby import AppiumBy
 capabilities = dict(
     platformName='Android',
     automationName='uiautomator2',
-    deviceName='Samsung_Galaxy_Tab_S7_FE API 34',
+    deviceName='adb-R9YTB03PNMP-RjSBb0._adb-tls-connect._tcp',
     appPackage='com.android.settings',
     appActivity='.Settings'
 )
 
-appium_server_url = 'http://localhost:4723'
+appium_server_url = 'http://localhost:4800'
 
 class TestAppium(unittest.TestCase):
     def setUp(self) -> None:
@@ -23,7 +23,7 @@ class TestAppium(unittest.TestCase):
             self.driver.quit()
 
     def test_find_settings(self) -> None:
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Apps"]')
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="기기 간 연결"]')
         el.click()
         time.sleep(2)
 

@@ -1,39 +1,31 @@
+import unittest, time
 from appium import webdriver
+from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
-import time
 
-desired_caps = {
-    "platformName": "Android",
-    "deviceName": "Samsung_Galaxy_Tab_S7_FE API TiramisuPrivacySandbox",
-    "appPackage": "com.android.calculator2",
-    "appActivity": ".Calculator",
-    "automationName": "UiAutomator2"
-}
 
-# Appium 서버에 연결
-driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_caps)
+capabilities = dict(
+    platformName='Android',
+    automationName='uiautomator2',
+    deviceName='Android',
+    appPackage='com.android.settings',
+    appActivity='.Settings'
+)
 
-try:
-    # 2 버튼 클릭
-    button_2 = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("2")')
-    button_2.click()
+appium_server_url = 'http://localhost:4723'
 
-    # + 버튼 클릭
-    plus_button = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("plus")')
-    plus_button.click()
+class TestAppium(unittest.TestCase):
+    def setUp(self) -> None:
+        self.driver = webdriver.Remote(appium_server_url, options=UiAutomator2Options().load_capabilities(capabilities))
 
-    # 3 버튼 클릭
-    button_3 = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("3")')
-    button_3.click()
+    def tearDown(self) -> None:
+        if self.driver:
+            self.driver.quit()
 
-    # = 버튼 클릭
-    equals_button = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("equals")')
-    equals_button.click()
+    def test_find_settings(self) -> None:
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="연결"]')
+        el.click()
+        time.sleep(2)
 
-    # 결과 가져오기
-    result = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("com.android.calculator2:id/result")')
-    print(f"결과값: {result.text}")  # 결과 출력
-
-finally:
-    # 세션 종료
-    driver.quit()
+if __name__ == '__main__':
+    unittest.main()

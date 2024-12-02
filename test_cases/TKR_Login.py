@@ -1,6 +1,8 @@
-import time
+from time import sleep
 
-class Test_case1():
-    def (self):
+def run_tkr(driver):
+    driver.s
+
+
 
 
